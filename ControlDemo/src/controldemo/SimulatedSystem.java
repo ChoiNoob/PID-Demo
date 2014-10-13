@@ -34,18 +34,19 @@ public class SimulatedSystem {
     public double setVoltage(double voltage) {
         c_voltage = coerce(voltage, -1, 1); //constrain voltage
         tau_m = motorTorque(c_voltage, omega); //calculate torque from motor, which depends on the voltage and the current speed
-        alpha = tau_m / (m); //calculate the acceleration of the system
+        alpha = tau_m / (m); //calculate the acceleration of the system.  In this case, I = mr^2, and r = 1, so I = m.
         omega += alpha * dt; //add to velocity
         theta += omega * dt; //add to position
         return theta;
     }
     
+    //arm with gravity
     public double setArmVoltage(double voltage){
         c_voltage = coerce(voltage, -1, 1); //constrain voltage
         tau_m = motorTorque(c_voltage, omega); //calculate torque from motor, which depends on the voltage and the current speed
         //calculate the torque of gravity
         double tau_g = g*m*Math.cos(theta/150);
-        alpha = (tau_m - tau_g)/m;
+        alpha = (tau_m - tau_g)/m; //In this case, I = mr^2, and r = 1, so I = m.
         omega += alpha * dt; //add to velocity
         theta += omega * dt; //add to position
         return theta;
